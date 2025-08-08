@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./SearchSection.module.css";
 import searchlogo from "../../assets/Search.png";
 import searchlogo2 from "../../assets/Icon.png";
@@ -19,6 +19,38 @@ const SearchSection = ({
   loading,
   error,
 }) => {
+  const [isStateDropdownOpen, setIsStateDropdownOpen] = useState(false);
+  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+  const stateDropdownRef = useRef(null);
+  const cityDropdownRef = useRef(null);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+        setIsStateDropdownOpen(false);
+      }
+      if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target)) {
+        setIsCityDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleStateSelect = (state) => {
+    onStateChange(state);
+    setIsStateDropdownOpen(false);
+  };
+
+  const handleCitySelect = (city) => {
+    onCityChange(city);
+    setIsCityDropdownOpen(false);
+  };
+
   let optionCardsData = [
     {
       icon: Doctor,
@@ -41,48 +73,60 @@ const SearchSection = ({
       title: "Ambulance",
     },
   ];
+
   return (
     <section className={styles.searchSection}>
       <div className="container">
         <form onSubmit={onSearch} className={styles.searchForm}>
           <div className={styles.searchInputs}>
-            <div className={styles.inputGroup} id="state">
+            <div className={styles.inputGroup} id="state" ref={stateDropdownRef}>
               <img src={searchlogo} alt="" />
-              <select
-                value={selectedState}
-                onChange={(e) => onStateChange(e.target.value)}
-                className={styles.select}
-                required
-                data-testid="state-select"
-              >
-                <option value="">Select State</option>
-                {states.map((state) => (
-                  <option key={state} value={state}>
-                    {state}
-                  </option>
-                ))}
-              </select>
+              <div className={styles.customSelect}>
+                <div 
+                  className={styles.selectDisplay}
+                  onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
+                >
+                  {selectedState || "Select State"}
+                </div>
+                {isStateDropdownOpen && (
+                  <ul className={styles.dropdownList}>
+                    {states.map((state, index) => (
+                      <li 
+                        key={index} 
+                        onClick={() => handleStateSelect(state)}
+                        className={styles.dropdownItem}
+                      >
+                        {state}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
 
-            <div className={styles.inputGroup} id="city">
+            <div className={styles.inputGroup} id="city" ref={cityDropdownRef}>
               <img src={searchlogo} alt="" />
-              <select
-                value={selectedCity}
-                onChange={(e) => onCityChange(e.target.value)}
-                className={styles.select}
-                disabled={!selectedState || loading}
-                required
-                data-testid="city-select"
-              >
-                <option value="">
-                  {loading ? "Loading cities..." : "Select City"}
-                </option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>
-                    {city}
-                  </option>
-                ))}
-              </select>
+              <div className={styles.customSelect}>
+                <div 
+                  className={styles.selectDisplay}
+                  onClick={() => !loading && selectedState && setIsCityDropdownOpen(!isCityDropdownOpen)}
+                >
+                  {loading ? "Loading cities..." : selectedCity || "Select City"}
+                </div>
+                {isCityDropdownOpen && !loading && selectedState && (
+                  <ul className={styles.dropdownList}>
+                    {cities.map((city, index) => (
+                      <li 
+                        key={index} 
+                        onClick={() => handleCitySelect(city)}
+                        className={styles.dropdownItem}
+                      >
+                        {city}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
 
