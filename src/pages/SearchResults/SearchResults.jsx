@@ -10,6 +10,7 @@ const SearchResults = () => {
   const [searchParams] = useSearchParams();
   const [medicalCenters, setMedicalCenters] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedCenter, setSelectedCenter] = useState(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
   const navigate = useNavigate();
@@ -20,19 +21,30 @@ const SearchResults = () => {
   useEffect(() => {
     if (state && city) {
       fetchMedicalCenters();
+    } else {
+      setLoading(false);
+      setError('State and city parameters are required');
     }
   }, [state, city]);
 
   const fetchMedicalCenters = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await fetch(
-        `https://meddata-backend.onrender.com/data?state=${state}&city=${city}`
+        `https://meddata-backend.onrender.com/data?state=${encodeURIComponent(state)}&city=${encodeURIComponent(city)}`
       );
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setMedicalCenters(data);
+      setMedicalCenters(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching medical centers:', error);
+      setError('Failed to fetch medical centers. Please try again.');
+      setMedicalCenters([]);
     } finally {
       setLoading(false);
     }
@@ -44,23 +56,29 @@ const SearchResults = () => {
   };
 
   const handleBookingConfirm = (bookingData) => {
-    const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    const newBooking = {
-      id: Date.now(),
-      ...bookingData,
-      center: selectedCenter,
-      state,
-      city
-    };
-    
-    existingBookings.push(newBooking);
-    localStorage.setItem('bookings', JSON.stringify(existingBookings));
-    
-    setShowBookingModal(false);
-    setSelectedCenter(null);
-    
-    // Navigate to my bookings
-    navigate('/my-bookings');
+    try {
+      const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      const newBooking = {
+        id: Date.now(),
+        ...bookingData,
+        center: selectedCenter,
+        state,
+        city,
+        createdAt: new Date().toISOString()
+      };
+      
+      existingBookings.push(newBooking);
+      localStorage.setItem('bookings', JSON.stringify(existingBookings));
+      
+      setShowBookingModal(false);
+      setSelectedCenter(null);
+      
+      // Navigate to my bookings
+      navigate('/my-bookings');
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      alert('Failed to save booking. Please try again.');
+    }
   };
 
   if (loading) {
@@ -68,6 +86,17 @@ const SearchResults = () => {
       <div className={styles.loading}>
         <div className={styles.spinner}></div>
         <p>Loading medical centers...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.error}>
+        <p>{error}</p>
+        <button onClick={fetchMedicalCenters} className="btn-primary">
+          Try Again
+        </button>
       </div>
     );
   }
@@ -82,40 +111,47 @@ const SearchResults = () => {
 
         <div className={styles.resultsContent}>
           <div className={styles.centersList}>
-            {medicalCenters.map((center, index) => (
-              <div key={index} className={styles.centerCard}>
-                <div className={styles.centerIcon}>
-                  <span>🏥</span>
-                </div>
-                <div className={styles.centerInfo}>
-                  <h3>{center["Hospital Name"]}</h3>
-                  <p className={styles.location}>
-                    {center.Address}, {center.City}, {center.State} {center["ZIP Code"]}
-                  </p>
-                  <p className={styles.specialty}>
-                    {center["Hospital Type"]} • {center["Hospital Ownership"]}
-                  </p>
-                  <div className={styles.consultation}>
-                    <span className={styles.free}>FREE</span>
-                    <span className={styles.consultationText}>₹500 Consultation fee at clinic</span>
-                  </div>
-                  <div className={styles.rating}>
-                    <span className={styles.ratingBadge}>👍</span>
-                  </div>
-                </div>
-                <div className={styles.centerActions}>
-                  <div className={styles.availability}>
-                    <span className={styles.availableToday}>Available Today</span>
-                  </div>
-                  <button 
-                    className="btn-primary"
-                    onClick={() => handleBooking(center)}
-                  >
-                    Book FREE Center Visit
-                  </button>
-                </div>
+            {medicalCenters.length === 0 ? (
+              <div className={styles.noResults}>
+                <p>No medical centers found for {city}, {state}</p>
               </div>
-            ))}
+            ) : (
+              medicalCenters.map((center, index) => (
+                <div key={index} className={styles.centerCard}>
+                  <div className={styles.centerIcon}>
+                    <span>🏥</span>
+                  </div>
+                  <div className={styles.centerInfo}>
+                    <h3>{center["Hospital Name"]}</h3>
+                    <p className={styles.location}>
+                      {center.Address}, {center.City}, {center.State} {center["ZIP Code"]}
+                    </p>
+                    <p className={styles.specialty}>
+                      {center["Hospital Type"]} • {center["Hospital Ownership"]}
+                    </p>
+                    <div className={styles.consultation}>
+                      <span className={styles.free}>FREE</span>
+                      <span className={styles.consultationText}>₹500 Consultation fee at clinic</span>
+                    </div>
+                    <div className={styles.rating}>
+                      <span className={styles.ratingBadge}>👍</span>
+                    </div>
+                  </div>
+                  <div className={styles.centerActions}>
+                    <div className={styles.availability}>
+                      <span className={styles.availableToday}>Available Today</span>
+                    </div>
+                    <button 
+                      className="btn-primary"
+                      onClick={() => handleBooking(center)}
+                      data-testid="book-appointment-btn"
+                    >
+                      Book FREE Center Visit
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
 
           <div className={styles.sidebar}>
@@ -137,10 +173,13 @@ const SearchResults = () => {
       <AppDownload />
       <Footer />
 
-      {showBookingModal && (
+      {showBookingModal && selectedCenter && (
         <BookingModal
           center={selectedCenter}
-          onClose={() => setShowBookingModal(false)}
+          onClose={() => {
+            setShowBookingModal(false);
+            setSelectedCenter(null);
+          }}
           onConfirm={handleBookingConfirm}
         />
       )}

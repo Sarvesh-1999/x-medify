@@ -17,6 +17,7 @@ const SearchSection = ({
   onCityChange,
   onSearch,
   loading,
+  error,
 }) => {
   let optionCardsData = [
     {
@@ -52,6 +53,7 @@ const SearchSection = ({
                 onChange={(e) => onStateChange(e.target.value)}
                 className={styles.select}
                 required
+                data-testid="state-select"
               >
                 <option value="">Select State</option>
                 {states.map((state) => (
@@ -70,6 +72,7 @@ const SearchSection = ({
                 className={styles.select}
                 disabled={!selectedState || loading}
                 required
+                data-testid="city-select"
               >
                 <option value="">
                   {loading ? "Loading cities..." : "Select City"}
@@ -83,11 +86,18 @@ const SearchSection = ({
             </div>
           </div>
 
+          {error && (
+            <div className={styles.errorMessage}>
+              <p>{error}</p>
+            </div>
+          )}
+
           <button
             type="submit"
             id="searchBtn"
             className={`btn-primary ${styles.searchBtn}`}
-            disabled={!selectedState || !selectedCity}
+            disabled={!selectedState || !selectedCity || loading}
+            data-testid="search-btn"
           >
             <img src={searchlogo2} alt="" />
             Search

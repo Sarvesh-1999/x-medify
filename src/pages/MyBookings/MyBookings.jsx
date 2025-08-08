@@ -5,19 +5,55 @@ import styles from './MyBookings.module.css';
 
 const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredBookings, setFilteredBookings] = useState([]);
 
   useEffect(() => {
-    const savedBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-    setBookings(savedBookings);
+    loadBookings();
   }, []);
 
+  useEffect(() => {
+    // Filter bookings based on search term
+    const filtered = bookings.filter(booking => 
+      booking.center && 
+      booking.center["Hospital Name"] && 
+      booking.center["Hospital Name"].toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredBookings(filtered);
+  }, [bookings, searchTerm]);
+
+  const loadBookings = () => {
+    try {
+      const savedBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+      setBookings(savedBookings);
+      setFilteredBookings(savedBookings);
+    } catch (error) {
+      console.error('Error loading bookings:', error);
+      setBookings([]);
+      setFilteredBookings([]);
+    }
+  };
+
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return 'Invalid Date';
+    }
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
   };
 
   return (
@@ -30,7 +66,14 @@ const MyBookings = () => {
               type="text" 
               placeholder="Search by hospital" 
               className={styles.searchInput}
+              value={searchTerm}
+              onChange={handleSearch}
             />
+            {searchTerm && (
+              <button onClick={clearSearch} className="btn-secondary">
+                Clear
+              </button>
+            )}
             <button className="btn-primary">🔍 Search</button>
           </div>
         </div>
@@ -40,20 +83,37 @@ const MyBookings = () => {
             {bookings.length === 0 ? (
               <div className={styles.noBookings}>
                 <p>No bookings found. Book your first appointment!</p>
+                <button 
+                  className="btn-primary" 
+                  onClick={() => window.location.href = '/'}
+                >
+                  Book Appointment
+                </button>
+              </div>
+            ) : filteredBookings.length === 0 ? (
+              <div className={styles.noBookings}>
+                <p>No bookings match your search criteria.</p>
+                <button onClick={clearSearch} className="btn-primary">
+                  Clear Search
+                </button>
               </div>
             ) : (
-              bookings.map((booking) => (
-                <div key={booking.id} className={styles.bookingCard}>
+              filteredBookings.map((booking) => (
+                <div key={booking.id} className={styles.bookingCard} data-testid="booking-card">
                   <div className={styles.centerIcon}>
                     <span>🏥</span>
                   </div>
                   <div className={styles.bookingInfo}>
-                    <h3>{booking.center["Hospital Name"]}</h3>
+                    <h3>{booking.center && booking.center["Hospital Name"]}</h3>
                     <p className={styles.location}>
-                      {booking.center.Address}, {booking.center.City}, {booking.center.State}
+                      {booking.center && booking.center.Address}, {booking.center && booking.center.City}, {booking.center && booking.center.State}
                     </p>
                     <p className={styles.specialty}>
-                      {booking.center["Hospital Type"]} • {booking.center["Hospital Ownership"]}
+                      {booking.center && booking.center["Hospital Type"]} • {booking.center && booking.center["Hospital Ownership"]}
+                    </p>
+                    <p className={styles.bookingMeta}>
+                      <span>State: {booking.state}</span>
+                      <span>City: {booking.city}</span>
                     </p>
                   </div>
                   <div className={styles.bookingDetails}>

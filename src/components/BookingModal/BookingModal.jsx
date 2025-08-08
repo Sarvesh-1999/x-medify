@@ -43,6 +43,15 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
     }
   };
 
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+    setSelectedTime(''); // Reset time when date changes
+  };
+
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+  };
+
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -60,12 +69,14 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
         </div>
 
         <div className={styles.dateSelection}>
+          <h4>Select Date</h4>
           <div className={styles.dateButtons}>
             {dates.map((dateObj) => (
               <button
                 key={dateObj.date}
                 className={`${styles.dateBtn} ${selectedDate === dateObj.date ? styles.selected : ''}`}
-                onClick={() => setSelectedDate(dateObj.date)}
+                onClick={() => handleDateSelect(dateObj.date)}
+                data-testid={`date-${dateObj.date}`}
               >
                 <div className={styles.dateLabel}>{dateObj.label}</div>
                 <div className={styles.slotsAvailable}>11 Slots Available</div>
@@ -76,6 +87,7 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
 
         {selectedDate && (
           <div className={styles.timeSelection}>
+            <h4>Select Time</h4>
             <div className={styles.timeSection}>
               <p className={styles.timeLabel}>Morning</p>
               <div className={styles.timeSlots}>
@@ -83,7 +95,8 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
                   <button
                     key={time}
                     className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : ''}`}
-                    onClick={() => setSelectedTime(time)}
+                    onClick={() => handleTimeSelect(time)}
+                    data-testid={`time-${time}`}
                   >
                     {time}
                   </button>
@@ -98,7 +111,8 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
                   <button
                     key={time}
                     className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : ''}`}
-                    onClick={() => setSelectedTime(time)}
+                    onClick={() => handleTimeSelect(time)}
+                    data-testid={`time-${time}`}
                   >
                     {time}
                   </button>
@@ -113,7 +127,8 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
                   <button
                     key={time}
                     className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : ''}`}
-                    onClick={() => setSelectedTime(time)}
+                    onClick={() => handleTimeSelect(time)}
+                    data-testid={`time-${time}`}
                   >
                     {time}
                   </button>
@@ -131,6 +146,7 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
             className="btn-primary" 
             onClick={handleConfirm}
             disabled={!selectedDate || !selectedTime}
+            data-testid="confirm-booking-btn"
           >
             Book Appointment
           </button>

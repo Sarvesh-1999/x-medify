@@ -19,6 +19,7 @@ const Home = () => {
   const [selectedState, setSelectedState] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,23 +28,38 @@ const Home = () => {
 
   const fetchStates = async () => {
     try {
+      setError(null);
       const response = await fetch('https://meddata-backend.onrender.com/states');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setStates(data);
+      setStates(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching states:', error);
+      setError('Failed to fetch states. Please try again.');
     }
   };
 
   const fetchCities = async (state) => {
     if (!state) return;
     setLoading(true);
+    setError(null);
     try {
-      const response = await fetch(`https://meddata-backend.onrender.com/cities/${state}`);
+      const response = await fetch(`https://meddata-backend.onrender.com/cities/${encodeURIComponent(state)}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
-      setCities(data);
+      setCities(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching cities:', error);
+      setError('Failed to fetch cities. Please try again.');
+      setCities([]);
     } finally {
       setLoading(false);
     }
@@ -53,15 +69,23 @@ const Home = () => {
     setSelectedState(state);
     setSelectedCity('');
     setCities([]);
+    setError(null);
     if (state) {
       fetchCities(state);
     }
   };
 
+  const handleCityChange = (city) => {
+    setSelectedCity(city);
+    setError(null);
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (selectedState && selectedCity) {
-      navigate(`/search-results?state=${selectedState}&city=${selectedCity}`);
+      navigate(`/search-results?state=${encodeURIComponent(selectedState)}&city=${encodeURIComponent(selectedCity)}`);
+    } else {
+      setError('Please select both state and city');
     }
   };
 
@@ -74,9 +98,10 @@ const Home = () => {
         selectedState={selectedState}
         selectedCity={selectedCity}
         onStateChange={handleStateChange}
-        onCityChange={setSelectedCity}
+        onCityChange={handleCityChange}
         onSearch={handleSearch}
         loading={loading}
+        error={error}
       />
       <Accordion/>
       <SpecializationSection />
