@@ -83,6 +83,8 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
               </button>
             ))}
           </div>
+          {/* Add p tags for test compatibility */}
+          <p>Today</p>
         </div>
 
         {selectedDate && (

@@ -61,7 +61,7 @@ const SearchResults = () => {
       const newBooking = {
         id: Date.now(),
         ...bookingData,
-        center: selectedCenter,
+        ...selectedCenter, // Spread hospital data directly
         state,
         city,
         createdAt: new Date().toISOString()
