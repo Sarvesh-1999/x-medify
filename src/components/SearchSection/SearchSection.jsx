@@ -79,13 +79,15 @@ const SearchSection = ({
       <div className="container">
         <form onSubmit={onSearch} className={styles.searchForm}>
           <div className={styles.searchInputs}>
-            <div className={styles.inputGroup} id="state" ref={stateDropdownRef}>
+            <div 
+              className={styles.inputGroup} 
+              id="state" 
+              ref={stateDropdownRef}
+              onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
+            >
               <img src={searchlogo} alt="" />
               <div className={styles.customSelect}>
-                <div 
-                  className={styles.selectDisplay}
-                  onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
-                >
+                <div className={styles.selectDisplay}>
                   {selectedState || "Select State"}
                 </div>
                 {isStateDropdownOpen && (
@@ -93,7 +95,10 @@ const SearchSection = ({
                     {states.map((state, index) => (
                       <li 
                         key={index} 
-                        onClick={() => handleStateSelect(state)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStateSelect(state);
+                        }}
                         className={styles.dropdownItem}
                       >
                         {state}
@@ -104,13 +109,15 @@ const SearchSection = ({
               </div>
             </div>
 
-            <div className={styles.inputGroup} id="city" ref={cityDropdownRef}>
+            <div 
+              className={styles.inputGroup} 
+              id="city" 
+              ref={cityDropdownRef}
+              onClick={() => !loading && selectedState && setIsCityDropdownOpen(!isCityDropdownOpen)}
+            >
               <img src={searchlogo} alt="" />
               <div className={styles.customSelect}>
-                <div 
-                  className={styles.selectDisplay}
-                  onClick={() => !loading && selectedState && setIsCityDropdownOpen(!isCityDropdownOpen)}
-                >
+                <div className={styles.selectDisplay}>
                   {loading ? "Loading cities..." : selectedCity || "Select City"}
                 </div>
                 {isCityDropdownOpen && !loading && selectedState && (
@@ -118,7 +125,10 @@ const SearchSection = ({
                     {cities.map((city, index) => (
                       <li 
                         key={index} 
-                        onClick={() => handleCitySelect(city)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCitySelect(city);
+                        }}
                         className={styles.dropdownItem}
                       >
                         {city}
