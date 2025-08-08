@@ -7,9 +7,10 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  top: 580px;
+  top: 560px;
   box-shadow: 6px 6px 35px #1028511c;
   border-radius: 15px;
+  /* border: 1px solid black; */
 }
 
 .searchForm {

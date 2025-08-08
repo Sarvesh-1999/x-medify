@@ -2,3 +2,65 @@
   width: 100%;
   position: relative;
 }
+
+.hospitalsSection {
+  padding: 2rem 0;
+  margin: 2rem 0;
+  margin-top: 250px;
+  /* border: 1px solid black; */
+}
+
+.hospitalsSection h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.hospitalsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.hospitalCard {
+  display: flex;
+  align-items: center;
+  padding: 1.5rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.hospitalCard:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.hospitalIcon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  color: #007bff;
+}
+
+.hospitalInfo {
+  flex: 1;
+}
+
+.hospitalInfo h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.hospitalInfo p {
+  margin: 0.25rem 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.hospitalCard button {
+  margin-left: 1rem;
+  white-space: nowrap;
+}

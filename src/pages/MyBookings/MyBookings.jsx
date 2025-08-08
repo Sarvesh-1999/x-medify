@@ -15,9 +15,12 @@ const MyBookings = () => {
   useEffect(() => {
     // Filter bookings based on search term
     const filtered = bookings.filter(booking => 
-      booking.center && 
+      (booking.center && 
       booking.center["Hospital Name"] && 
-      booking.center["Hospital Name"].toLowerCase().includes(searchTerm.toLowerCase())
+      booking.center["Hospital Name"].toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (booking.hospital && 
+      booking.hospital["Hospital Name"] && 
+      booking.hospital["Hospital Name"].toLowerCase().includes(searchTerm.toLowerCase()))
     );
     setFilteredBookings(filtered);
   }, [bookings, searchTerm]);
@@ -104,12 +107,12 @@ const MyBookings = () => {
                     <span>🏥</span>
                   </div>
                   <div className={styles.bookingInfo}>
-                    <h3>{booking.center && booking.center["Hospital Name"]}</h3>
+                    <h3>{(booking.center && booking.center["Hospital Name"]) || (booking.hospital && booking.hospital["Hospital Name"])}</h3>
                     <p className={styles.location}>
-                      {booking.center && booking.center.Address}, {booking.center && booking.center.City}, {booking.center && booking.center.State}
+                      {(booking.center && booking.center.Address) || (booking.hospital && booking.hospital.Address)}, {(booking.center && booking.center.City) || (booking.hospital && booking.hospital.City)}, {(booking.center && booking.center.State) || (booking.hospital && booking.hospital.State)}
                     </p>
                     <p className={styles.specialty}>
-                      {booking.center && booking.center["Hospital Type"]} • {booking.center && booking.center["Hospital Ownership"]}
+                      {(booking.center && booking.center["Hospital Type"]) || (booking.hospital && booking.hospital["Hospital Type"])} • {(booking.center && booking.center["Hospital Ownership"]) || (booking.hospital && booking.hospital["Hospital Ownership"])}
                     </p>
                     <p className={styles.bookingMeta}>
                       <span>State: {booking.state}</span>
