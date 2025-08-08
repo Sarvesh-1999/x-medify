@@ -1,0 +1,155 @@
+.searchSection {
+  background: white;
+  padding: 30px 0;
+  height: 429px;
+  z-index: 10;
+  width: 1170px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 580px;
+  box-shadow: 6px 6px 35px #1028511c;
+  border-radius: 15px;
+}
+
+.searchForm {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.searchInputs {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+  flex: 1;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 285px;
+  height: 50px;
+  transition: border-color 0.3s ease;
+  padding: 5px;
+  background-color: #fafbfe;
+  color: #abb6c7;
+}
+.inputGroup > img {
+  height: 24px;
+  width: 24px;
+}
+
+.select {
+  width: 100%;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  color: #abb6c7;
+  background-color: #fafbfe;
+}
+
+.inputGroup:focus-within {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.select:disabled {
+  cursor: not-allowed;
+}
+
+.searchBtn {
+  padding: 15px 30px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #ffffff;
+  width: 121px;
+  height: 50px;
+  border-radius: 8px;
+  font-size: 16px;
+  letter-spacing: 2%;
+  font-weight: 500;
+}
+
+.searchBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.searchOptions {
+  text-align: center;
+}
+
+.searchOptions p {
+  color: #102851;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 2%;
+}
+
+.optionCards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.optionCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 100px;
+  width: 203px;
+  height: 153px;
+}
+
+.optionCard:hover {
+  background: #e0f2fe;
+  transform: translateY(-2px);
+}
+
+.icon {
+  font-size: 24px;
+}
+
+@media (max-width: 768px) {
+  .searchForm {
+    flex-direction: column;
+    padding: 30px 20px;
+  }
+
+  .searchInputs {
+    flex-direction: column;
+  }
+
+  .searchBtn {
+    width: 100%;
+  }
+
+  .optionCards {
+    gap: 15px;
+  }
+
+  .optionCard {
+    min-width: 80px;
+    padding: 15px;
+  }
+}

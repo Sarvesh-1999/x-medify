@@ -1,0 +1,202 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.modalHeader h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.centerInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.centerIcon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #b3e5fc 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.centerInfo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3b82f6;
+  margin-bottom: 4px;
+}
+
+.centerInfo p {
+  color: #64748b;
+  font-size: 14px;
+}
+
+.dateSelection {
+  padding: 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dateButtons {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+}
+
+.dateBtn {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  text-align: center;
+}
+
+.dateBtn:hover {
+  border-color: #3b82f6;
+}
+
+.dateBtn.selected {
+  border-color: #3b82f6;
+  background: #eff6ff;
+}
+
+.dateLabel {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.slotsAvailable {
+  font-size: 12px;
+  color: #10b981;
+}
+
+.timeSelection {
+  padding: 24px;
+}
+
+.timeSection {
+  margin-bottom: 24px;
+}
+
+.timeLabel {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.timeSlots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.timeBtn {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.timeBtn:hover {
+  border-color: #3b82f6;
+}
+
+.timeBtn.selected {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  color: #3b82f6;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 24px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.modalFooter button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .modal {
+    margin: 10px;
+    max-height: 95vh;
+  }
+
+  .dateButtons {
+    flex-direction: column;
+  }
+
+  .dateBtn {
+    min-width: auto;
+  }
+
+  .modalFooter {
+    flex-direction: column;
+  }
+
+  .modalFooter button {
+    width: 100%;
+  }
+}
+

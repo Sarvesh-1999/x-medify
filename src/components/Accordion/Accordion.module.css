@@ -1,0 +1,24 @@
+.swiperWrapper{
+    min-height: 429px;
+    width: 100%;
+    padding: 250px 100px 50px 100px;
+}
+
+.swiperSlide {
+  text-align: center;
+  font-size: 18px;
+ width: 398px;
+  height: 199px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiperSlide img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+
+}

@@ -1,0 +1,57 @@
+.patientCaring {
+  padding: 80px 0;
+  background: white;
+}
+
+.caringContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.caringImage img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.caringText h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 24px;
+}
+
+.highlight {
+  color: #3b82f6;
+}
+
+.caringText p {
+  font-size: 18px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+}
+
+.features li {
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .caringContent {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    text-align: center;
+  }
+}

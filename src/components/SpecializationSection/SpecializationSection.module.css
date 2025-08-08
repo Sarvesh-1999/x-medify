@@ -1,0 +1,69 @@
+.specialization {
+  padding: 80px 0;
+  background: white;
+}
+
+.specialization h2 {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 50px;
+}
+
+.specializationGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.specCard {
+  background: #f8fafc;
+  padding: 32px 24px;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.specCard:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  transform: translateY(-4px);
+}
+
+.specIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.specCard span {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.viewAll {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .specializationGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .specCard {
+    padding: 24px 16px;
+  }
+
+  .specIcon {
+    font-size: 36px;
+  }
+}
