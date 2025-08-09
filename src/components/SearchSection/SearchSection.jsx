@@ -137,12 +137,13 @@ const SearchSection = ({
                     ? "Loading cities..."
                     : selectedCity || "Select City"}
                 </div>
-                {isCityDropdownOpen && !loading && selectedState && (
-                  <ul
+                 <ul
                     className={styles.dropdownList}
                     data-testid="city-dropdown"
                   >
-                    {cities.map((city, index) => (
+                {isCityDropdownOpen && !loading && selectedState && (
+                 
+                    cities.map((city, index) => (
                       <li
                         key={index}
                         data-testid={`city-${city}`}
@@ -154,9 +155,10 @@ const SearchSection = ({
                       >
                         {city}
                       </li>
-                    ))}
-                  </ul>
+                    ))
+                  
                 )}
+                </ul>
               </div>
             </div>
           </div>
