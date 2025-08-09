@@ -27,17 +27,23 @@ const SearchSection = ({
   // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (stateDropdownRef.current && !stateDropdownRef.current.contains(event.target)) {
+      if (
+        stateDropdownRef.current &&
+        !stateDropdownRef.current.contains(event.target)
+      ) {
         setIsStateDropdownOpen(false);
       }
-      if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target)) {
+      if (
+        cityDropdownRef.current &&
+        !cityDropdownRef.current.contains(event.target)
+      ) {
         setIsCityDropdownOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -80,9 +86,9 @@ const SearchSection = ({
         <form onSubmit={onSearch} className={styles.searchForm}>
           <div className={styles.searchInputs}>
             {/* State Dropdown */}
-            <div 
-              className={styles.inputGroup} 
-              id="state" 
+            <div
+              className={styles.inputGroup}
+              id="state"
               ref={stateDropdownRef}
               onClick={() => setIsStateDropdownOpen(!isStateDropdownOpen)}
             >
@@ -91,13 +97,13 @@ const SearchSection = ({
                 <div className={styles.selectDisplay}>
                   {selectedState || "Select State"}
                 </div>
-                {isStateDropdownOpen && (
-                  <ul 
-                    className={styles.dropdownList}
-                    data-testid="state-dropdown"
-                  >
-                    {states.map((state, index) => (
-                      <li 
+                <ul
+                  className={styles.dropdownList}
+                  data-testid="state-dropdown"
+                >
+                  {isStateDropdownOpen &&
+                    states.map((state, index) => (
+                      <li
                         key={index}
                         data-testid={`state-${state}`}
                         onClick={(e) => {
@@ -109,30 +115,35 @@ const SearchSection = ({
                         {state}
                       </li>
                     ))}
-                  </ul>
-                )}
+                </ul>
               </div>
             </div>
 
             {/* City Dropdown */}
-            <div 
-              className={styles.inputGroup} 
-              id="city" 
+            <div
+              className={styles.inputGroup}
+              id="city"
               ref={cityDropdownRef}
-              onClick={() => !loading && selectedState && setIsCityDropdownOpen(!isCityDropdownOpen)}
+              onClick={() =>
+                !loading &&
+                selectedState &&
+                setIsCityDropdownOpen(!isCityDropdownOpen)
+              }
             >
               <img src={searchlogo} alt="" />
               <div className={styles.customSelect}>
                 <div className={styles.selectDisplay}>
-                  {loading ? "Loading cities..." : selectedCity || "Select City"}
+                  {loading
+                    ? "Loading cities..."
+                    : selectedCity || "Select City"}
                 </div>
                 {isCityDropdownOpen && !loading && selectedState && (
-                  <ul 
+                  <ul
                     className={styles.dropdownList}
                     data-testid="city-dropdown"
                   >
                     {cities.map((city, index) => (
-                      <li 
+                      <li
                         key={index}
                         data-testid={`city-${city}`}
                         onClick={(e) => {
@@ -177,7 +188,12 @@ const SearchSection = ({
             {optionCardsData.map((ele, idx) => {
               return (
                 <div className={styles.optionCard} key={idx}>
-                  <img src={ele.icon} className={styles.icon} height={60} width={60} />
+                  <img
+                    src={ele.icon}
+                    className={styles.icon}
+                    height={60}
+                    width={60}
+                  />
                   <span>{ele.title}</span>
                 </div>
               );
