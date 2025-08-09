@@ -15,10 +15,8 @@ const MyBookings = () => {
   }, []);
 
   useEffect(() => {
-    // Filter bookings based on search term
-    const filtered = bookings.filter(booking => 
-      (booking["Hospital Name"] && 
-      booking["Hospital Name"].toLowerCase().includes(searchTerm.toLowerCase()))
+    const filtered = bookings.filter(booking =>
+      booking["Hospital Name"]?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredBookings(filtered);
   }, [bookings, searchTerm]);
@@ -41,17 +39,16 @@ const MyBookings = () => {
       return date.toLocaleDateString('en-US', {
         day: '2-digit',
         month: 'short',
-        year: 'numeric'
+        year: 'numeric',
       });
     } catch (error) {
-      console.error('Error formatting date:', error);
       return 'Invalid Date';
     }
   };
 
-  // Triggered by clicking search button (for test compatibility)
-  const handleSearch = () => {
-    setSearchTerm(prev => prev.trim());
+  // Update search on button click to trigger re-render (some tests expect this)
+  const handleSearchClick = () => {
+    setSearchTerm(searchTerm.trim());
   };
 
   const clearSearch = () => {
@@ -59,25 +56,35 @@ const MyBookings = () => {
   };
 
   return (
-    <div className={styles.myBookings} data-testid="my-bookings-page">
+    <div className={styles.myBookings} data-testid="my-bookings">
       <div className="container">
         <div className={styles.header}>
           <h1>My Bookings</h1>
           <div className={styles.searchBar}>
-            <input 
-              type="text" 
-              placeholder="Search by hospital" 
+            <input
+              type="text"
+              placeholder="Search by hospital"
               className={styles.searchInput}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               data-testid="search-input"
             />
             {searchTerm && (
-              <button onClick={clearSearch} className="btn-secondary" data-testid="clear-search-btn">
+              <button
+                onClick={clearSearch}
+                className="btn-secondary"
+                data-testid="clear-search-btn"
+              >
                 Clear
               </button>
             )}
-            <button className="btn-primary" onClick={handleSearch} data-testid="search-btn">🔍 Search</button>
+            <button
+              onClick={handleSearchClick}
+              className="btn-primary"
+              data-testid="search-btn"
+            >
+              🔍 Search
+            </button>
           </div>
         </div>
 
@@ -86,8 +93,8 @@ const MyBookings = () => {
             {bookings.length === 0 ? (
               <div className={styles.noBookings} data-testid="no-bookings">
                 <p>No bookings found. Book your first appointment!</p>
-                <button 
-                  className="btn-primary" 
+                <button
+                  className="btn-primary"
                   onClick={() => navigate('/')}
                   data-testid="book-appointment-btn"
                 >
@@ -97,13 +104,21 @@ const MyBookings = () => {
             ) : filteredBookings.length === 0 ? (
               <div className={styles.noBookings} data-testid="no-bookings-search">
                 <p>No bookings match your search criteria.</p>
-                <button onClick={clearSearch} className="btn-primary">
+                <button
+                  onClick={clearSearch}
+                  className="btn-primary"
+                  data-testid="clear-search-btn-2"
+                >
                   Clear Search
                 </button>
               </div>
             ) : (
               filteredBookings.map((booking) => (
-                <div key={booking.id} className={styles.bookingCard} data-testid="booking-card">
+                <div
+                  key={booking.id}
+                  className={styles.bookingCard}
+                  data-testid="booking-card"
+                >
                   <div className={styles.centerIcon}>
                     <span role="img" aria-label="hospital">🏥</span>
                   </div>
@@ -138,11 +153,15 @@ const MyBookings = () => {
             <div className={styles.adCard}>
               <div className={styles.adContent}>
                 <h3>This World Oral Health Day,</h3>
-                <h4>Get a <span className={styles.freeText}>FREE</span> Appointment*</h4>
+                <h4>
+                  Get a <span className={styles.freeText}>FREE</span> Appointment*
+                </h4>
                 <h4>with Top Dentists.</h4>
                 <div className={styles.limitedOffer}>LIMITED PERIOD OFFER</div>
                 <p className={styles.hashtag}>#BeSensitiveToOralHealth</p>
-                <p className={styles.terms}>*T&C Apply - only consultation fee. Procedures/surgeries not covered</p>
+                <p className={styles.terms}>
+                  *T&C Apply - only consultation fee. Procedures/surgeries not covered
+                </p>
               </div>
             </div>
           </div>

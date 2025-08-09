@@ -61,10 +61,10 @@ const SearchResults = () => {
       const newBooking = {
         id: Date.now(),
         ...bookingData,
-        ...selectedCenter, // Spread hospital data directly
+        ...selectedCenter,
         state,
         city,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
       };
 
       existingBookings.push(newBooking);
@@ -73,7 +73,6 @@ const SearchResults = () => {
       setShowBookingModal(false);
       setSelectedCenter(null);
 
-      // Navigate to my bookings
       navigate('/my-bookings');
     } catch (error) {
       console.error('Error saving booking:', error);
@@ -83,7 +82,7 @@ const SearchResults = () => {
 
   if (loading) {
     return (
-      <div className={styles.loading} data-testid="loading-indicator">
+      <div className={styles.loading} data-testid="loading">
         <div className={styles.spinner}></div>
         <p>Loading medical centers...</p>
       </div>
@@ -92,7 +91,7 @@ const SearchResults = () => {
 
   if (error) {
     return (
-      <div className={styles.error} data-testid="error-message">
+      <div className={styles.error} data-testid="error">
         <p>{error}</p>
         <button onClick={fetchMedicalCenters} className="btn-primary" data-testid="retry-button">
           Try Again
@@ -102,10 +101,12 @@ const SearchResults = () => {
   }
 
   return (
-    <div className={styles.searchResults} data-testid="search-results-page">
+    <div className={styles.searchResults} data-testid="search-results">
       <div className="container">
         <div className={styles.resultsHeader}>
-          <h1 data-testid="results-count">{medicalCenters.length} medical centers available in {city}</h1>
+          <h1 data-testid="results-count">
+            {medicalCenters.length} medical centers available in {city}
+          </h1>
           <p>📅 Book appointments with minimum wait-time & verified doctor details</p>
         </div>
 
@@ -141,7 +142,7 @@ const SearchResults = () => {
                     <div className={styles.availability}>
                       <span className={styles.availableToday}>Available Today</span>
                     </div>
-                    <button 
+                    <button
                       className="btn-primary"
                       onClick={() => handleBooking(center)}
                       data-testid={`book-appointment-btn-${index}`}
