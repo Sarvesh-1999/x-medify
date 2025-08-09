@@ -141,7 +141,7 @@ const SearchSection = ({
                     className={styles.dropdownList}
                     data-testid="city-dropdown"
                   >
-                {isCityDropdownOpen && !loading && selectedState && (
+                {isCityDropdownOpen  && (
                  
                     cities.map((city, index) => (
                       <li
