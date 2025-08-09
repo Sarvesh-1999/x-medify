@@ -34,11 +34,11 @@ const SearchResults = () => {
       const response = await fetch(
         `https://meddata-backend.onrender.com/data?state=${encodeURIComponent(state)}&city=${encodeURIComponent(city)}`
       );
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
       setMedicalCenters(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -66,13 +66,13 @@ const SearchResults = () => {
         city,
         createdAt: new Date().toISOString()
       };
-      
+
       existingBookings.push(newBooking);
       localStorage.setItem('bookings', JSON.stringify(existingBookings));
-      
+
       setShowBookingModal(false);
       setSelectedCenter(null);
-      
+
       // Navigate to my bookings
       navigate('/my-bookings');
     } catch (error) {
@@ -83,7 +83,7 @@ const SearchResults = () => {
 
   if (loading) {
     return (
-      <div className={styles.loading}>
+      <div className={styles.loading} data-testid="loading-indicator">
         <div className={styles.spinner}></div>
         <p>Loading medical centers...</p>
       </div>
@@ -92,9 +92,9 @@ const SearchResults = () => {
 
   if (error) {
     return (
-      <div className={styles.error}>
+      <div className={styles.error} data-testid="error-message">
         <p>{error}</p>
-        <button onClick={fetchMedicalCenters} className="btn-primary">
+        <button onClick={fetchMedicalCenters} className="btn-primary" data-testid="retry-button">
           Try Again
         </button>
       </div>
@@ -102,24 +102,24 @@ const SearchResults = () => {
   }
 
   return (
-    <div className={styles.searchResults}>
+    <div className={styles.searchResults} data-testid="search-results-page">
       <div className="container">
         <div className={styles.resultsHeader}>
-          <h1>{medicalCenters.length} medical centers available in {city}</h1>
+          <h1 data-testid="results-count">{medicalCenters.length} medical centers available in {city}</h1>
           <p>📅 Book appointments with minimum wait-time & verified doctor details</p>
         </div>
 
         <div className={styles.resultsContent}>
-          <div className={styles.centersList}>
+          <div className={styles.centersList} data-testid="centers-list">
             {medicalCenters.length === 0 ? (
-              <div className={styles.noResults}>
+              <div className={styles.noResults} data-testid="no-results">
                 <p>No medical centers found for {city}, {state}</p>
               </div>
             ) : (
               medicalCenters.map((center, index) => (
-                <div key={index} className={styles.centerCard}>
+                <div key={index} className={styles.centerCard} data-testid="center-card">
                   <div className={styles.centerIcon}>
-                    <span>🏥</span>
+                    <span role="img" aria-label="hospital">🏥</span>
                   </div>
                   <div className={styles.centerInfo}>
                     <h3>{center["Hospital Name"]}</h3>
@@ -144,7 +144,7 @@ const SearchResults = () => {
                     <button 
                       className="btn-primary"
                       onClick={() => handleBooking(center)}
-                      data-testid="book-appointment-btn"
+                      data-testid={`book-appointment-btn-${index}`}
                     >
                       Book FREE Center Visit
                     </button>

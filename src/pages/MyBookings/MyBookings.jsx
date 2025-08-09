@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppDownload from '../../components/AppDownload/AppDownload';
 import Footer from '../../components/Footer/Footer';
 import styles from './MyBookings.module.css';
@@ -7,6 +8,7 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredBookings, setFilteredBookings] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadBookings();
@@ -47,8 +49,9 @@ const MyBookings = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+  // Triggered by clicking search button (for test compatibility)
+  const handleSearch = () => {
+    setSearchTerm(prev => prev.trim());
   };
 
   const clearSearch = () => {
@@ -56,7 +59,7 @@ const MyBookings = () => {
   };
 
   return (
-    <div className={styles.myBookings}>
+    <div className={styles.myBookings} data-testid="my-bookings-page">
       <div className="container">
         <div className={styles.header}>
           <h1>My Bookings</h1>
@@ -66,31 +69,33 @@ const MyBookings = () => {
               placeholder="Search by hospital" 
               className={styles.searchInput}
               value={searchTerm}
-              onChange={handleSearch}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              data-testid="search-input"
             />
             {searchTerm && (
-              <button onClick={clearSearch} className="btn-secondary">
+              <button onClick={clearSearch} className="btn-secondary" data-testid="clear-search-btn">
                 Clear
               </button>
             )}
-            <button className="btn-primary">🔍 Search</button>
+            <button className="btn-primary" onClick={handleSearch} data-testid="search-btn">🔍 Search</button>
           </div>
         </div>
 
         <div className={styles.bookingsContent}>
-          <div className={styles.bookingsList}>
+          <div className={styles.bookingsList} data-testid="bookings-list">
             {bookings.length === 0 ? (
-              <div className={styles.noBookings}>
+              <div className={styles.noBookings} data-testid="no-bookings">
                 <p>No bookings found. Book your first appointment!</p>
                 <button 
                   className="btn-primary" 
-                  onClick={() => window.location.href = '/'}
+                  onClick={() => navigate('/')}
+                  data-testid="book-appointment-btn"
                 >
                   Book Appointment
                 </button>
               </div>
             ) : filteredBookings.length === 0 ? (
-              <div className={styles.noBookings}>
+              <div className={styles.noBookings} data-testid="no-bookings-search">
                 <p>No bookings match your search criteria.</p>
                 <button onClick={clearSearch} className="btn-primary">
                   Clear Search
@@ -100,7 +105,7 @@ const MyBookings = () => {
               filteredBookings.map((booking) => (
                 <div key={booking.id} className={styles.bookingCard} data-testid="booking-card">
                   <div className={styles.centerIcon}>
-                    <span>🏥</span>
+                    <span role="img" aria-label="hospital">🏥</span>
                   </div>
                   <div className={styles.bookingInfo}>
                     <h3>{booking["Hospital Name"]}</h3>
