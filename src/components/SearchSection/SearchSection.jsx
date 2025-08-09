@@ -51,7 +51,7 @@ const SearchSection = ({
     setIsCityDropdownOpen(false);
   };
 
-  let optionCardsData = [
+  const optionCardsData = [
     {
       icon: Doctor,
       title: "Doctors",
@@ -79,6 +79,7 @@ const SearchSection = ({
       <div className="container">
         <form onSubmit={onSearch} className={styles.searchForm}>
           <div className={styles.searchInputs}>
+            {/* State Dropdown */}
             <div 
               className={styles.inputGroup} 
               id="state" 
@@ -91,10 +92,14 @@ const SearchSection = ({
                   {selectedState || "Select State"}
                 </div>
                 {isStateDropdownOpen && (
-                  <ul className={styles.dropdownList}>
+                  <ul 
+                    className={styles.dropdownList}
+                    data-testid="state-dropdown"
+                  >
                     {states.map((state, index) => (
                       <li 
-                        key={index} 
+                        key={index}
+                        data-testid={`state-${state}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleStateSelect(state);
@@ -109,6 +114,7 @@ const SearchSection = ({
               </div>
             </div>
 
+            {/* City Dropdown */}
             <div 
               className={styles.inputGroup} 
               id="city" 
@@ -121,10 +127,14 @@ const SearchSection = ({
                   {loading ? "Loading cities..." : selectedCity || "Select City"}
                 </div>
                 {isCityDropdownOpen && !loading && selectedState && (
-                  <ul className={styles.dropdownList}>
+                  <ul 
+                    className={styles.dropdownList}
+                    data-testid="city-dropdown"
+                  >
                     {cities.map((city, index) => (
                       <li 
-                        key={index} 
+                        key={index}
+                        data-testid={`city-${city}`}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleCitySelect(city);
@@ -140,12 +150,14 @@ const SearchSection = ({
             </div>
           </div>
 
+          {/* Error Message */}
           {error && (
             <div className={styles.errorMessage}>
               <p>{error}</p>
             </div>
           )}
 
+          {/* Search Button */}
           <button
             type="submit"
             id="searchBtn"
@@ -158,13 +170,14 @@ const SearchSection = ({
           </button>
         </form>
 
+        {/* Option Cards */}
         <div className={styles.searchOptions}>
           <p>You may be looking for</p>
           <div className={styles.optionCards}>
             {optionCardsData.map((ele, idx) => {
               return (
                 <div className={styles.optionCard} key={idx}>
-                  <img src={ele.icon} className={styles.icon} height={60} width={60}/>
+                  <img src={ele.icon} className={styles.icon} height={60} width={60} />
                   <span>{ele.title}</span>
                 </div>
               );
