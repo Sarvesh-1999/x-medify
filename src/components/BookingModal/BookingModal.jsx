@@ -83,47 +83,52 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
               </button>
             ))}
           </div>
+        
+          <p
+            style={{cursor: 'pointer', fontWeight: selectedDate ? 'bold' : 'normal'}}
+            onClick={() => selectedDate && setSelectedDate(selectedDate)}
+          >Today</p>
         </div>
 
         {selectedDate && (
           <div className="time-slots">
-            <p>Morning</p>
+            <p style={{cursor: 'pointer'}}>Morning</p>
             <button
-              className={selectedTime === "09:00 AM" ? styles.selected : ""}
+               className={`${styles.timeBtn} ${selectedTime === "09:00 AM" ? styles.selected : ""}`}
               onClick={() => handleTimeSelect("09:00 AM")}
             >
               09:00 AM
             </button>
             <button
-              className={selectedTime === "10:30 AM" ? styles.selected : ""}
+               className={`${styles.timeBtn} ${selectedTime === "09:00 AM" ? styles.selected : ""}`}
               onClick={() => handleTimeSelect("10:30 AM")}
             >
               10:30 AM
             </button>
 
-            <p>Afternoon</p>
+            <p style={{cursor: 'pointer'}}>Afternoon</p>
             <button
-              className={selectedTime === "01:00 PM" ? styles.selected : ""}
+               className={`${styles.timeBtn} ${selectedTime === "09:00 AM" ? styles.selected : ""}`}
               onClick={() => handleTimeSelect("01:00 PM")}
             >
               01:00 PM
             </button>
             <button
-              className={selectedTime === "02:30 PM" ? styles.selected : ""}
+               className={`${styles.timeBtn} ${selectedTime === "09:00 AM" ? styles.selected : ""}`}
               onClick={() => handleTimeSelect("02:30 PM")}
             >
               02:30 PM
             </button>
 
-            <p>Evening</p>
+            <p style={{cursor: 'pointer'}}>Evening</p>
             <button
-              className={selectedTime === "06:00 PM" ? styles.selected : ""}
+               className={`${styles.timeBtn} ${selectedTime === "09:00 AM" ? styles.selected : ""}`}
               onClick={() => handleTimeSelect("06:00 PM")}
             >
               06:00 PM
             </button>
             <button
-              className={selectedTime === "07:30 PM" ? styles.selected : ""}
+               className={`${styles.timeBtn} ${selectedTime === "09:00 AM" ? styles.selected : ""}`}
               onClick={() => handleTimeSelect("07:30 PM")}
             >
               07:30 PM

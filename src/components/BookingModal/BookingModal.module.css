@@ -1,3 +1,192 @@
+/* Modal card styling */
+.modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 32px 24px 32px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.centerInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.centerIcon {
+  font-size: 40px;
+  background: #eaf6ff;
+  border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateSelection {
+  margin-bottom: 24px;
+}
+
+.dateButtons {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.dateBtn {
+  background: #f6f8fa;
+  border: 1px solid #e3e7ed;
+  color: #222;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+}
+.dateBtn .selected {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+.slotsAvailable {
+  color: #00b96b;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+/* Time slots container */
+.time-slots {
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 16px 0 0 0;
+}
+
+.time-slots p {
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 12px;
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.time-slots button {
+  background: #f6f8fa;
+  border: 1px solid #e3e7ed;
+  color: #007bff;
+  font-weight: 500;
+  border-radius: 6px;
+  margin-right: 12px;
+  margin-bottom: 16px;
+  padding: 8px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+}
+.time-slots button:last-child {
+  margin-right: 0;
+}
+.time-slots button.selected,
+.time-slots button:active {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+
+/*  */
+.timeBtn {
+  background: #fff;
+  border: 1px solid #d1d5db; /* light gray */
+  color: #1e293b; /* dark gray text */
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 100px;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.timeBtn:hover {
+  border-color: #3b82f6; /* blue border on hover */
+  background: #f0f9ff;   /* light blue background */
+}
+
+.timeBtn.selected {
+  background: #3b82f6;   /* primary blue */
+  color: #fff;
+  border-color: #3b82f6;
+  box-shadow: 0 2px 6px rgba(59,130,246,0.3);
+}
+
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 32px;
+}
+.btn-primary {
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-primary:disabled {
+  background: #e3e7ed;
+  color: #aaa;
+  cursor: not-allowed;
+}
+.btn-secondary {
+  background: #f6f8fa;
+  color: #222;
+  border: 1px solid #e3e7ed;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-secondary:hover {
+  background: #eaf6ff;
+}
+
+@media (max-width: 600px) {
+  .modal {
+    padding: 16px 8px 12px 8px;
+    max-width: 100%;
+  }
+  .dateButtons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .time-slots button {
+    display: block;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 12px;
+  }
+}
 /* Time slots container */
 .time-slots {
   margin-top: 24px;
