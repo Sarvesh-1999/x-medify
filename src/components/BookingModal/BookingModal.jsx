@@ -83,60 +83,51 @@ const BookingModal = ({ center, onClose, onConfirm }) => {
               </button>
             ))}
           </div>
-          {/* Add p tags for test compatibility */}
-          <p>Today</p>
         </div>
 
         {selectedDate && (
-          <div className={styles.timeSelection}>
-            <h4>Select Time</h4>
-            <div className={styles.timeSection}>
-              <p className={styles.timeLabel}>Morning</p>
-              <div className={styles.timeSlots}>
-                {timeSlots.morning.map((time) => (
-                  <button
-                    key={time}
-                    className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : ''}`}
-                    onClick={() => handleTimeSelect(time)}
-                    data-testid={`time-${time}`}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="time-slots">
+            <p>Morning</p>
+            <button
+              className={selectedTime === "09:00 AM" ? styles.selected : ""}
+              onClick={() => handleTimeSelect("09:00 AM")}
+            >
+              09:00 AM
+            </button>
+            <button
+              className={selectedTime === "10:30 AM" ? styles.selected : ""}
+              onClick={() => handleTimeSelect("10:30 AM")}
+            >
+              10:30 AM
+            </button>
 
-            <div className={styles.timeSection}>
-              <p className={styles.timeLabel}>Afternoon</p>
-              <div className={styles.timeSlots}>
-                {timeSlots.afternoon.map((time) => (
-                  <button
-                    key={time}
-                    className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : ''}`}
-                    onClick={() => handleTimeSelect(time)}
-                    data-testid={`time-${time}`}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <p>Afternoon</p>
+            <button
+              className={selectedTime === "01:00 PM" ? styles.selected : ""}
+              onClick={() => handleTimeSelect("01:00 PM")}
+            >
+              01:00 PM
+            </button>
+            <button
+              className={selectedTime === "02:30 PM" ? styles.selected : ""}
+              onClick={() => handleTimeSelect("02:30 PM")}
+            >
+              02:30 PM
+            </button>
 
-            <div className={styles.timeSection}>
-              <p className={styles.timeLabel}>Evening</p>
-              <div className={styles.timeSlots}>
-                {timeSlots.evening.map((time) => (
-                  <button
-                    key={time}
-                    className={`${styles.timeBtn} ${selectedTime === time ? styles.selected : ''}`}
-                    onClick={() => handleTimeSelect(time)}
-                    data-testid={`time-${time}`}
-                  >
-                    {time}
-                  </button>
-                ))}
-              </div>
-            </div>
+            <p>Evening</p>
+            <button
+              className={selectedTime === "06:00 PM" ? styles.selected : ""}
+              onClick={() => handleTimeSelect("06:00 PM")}
+            >
+              06:00 PM
+            </button>
+            <button
+              className={selectedTime === "07:30 PM" ? styles.selected : ""}
+              onClick={() => handleTimeSelect("07:30 PM")}
+            >
+              07:30 PM
+            </button>
           </div>
         )}
 
