@@ -27,28 +27,55 @@ const SearchResults = () => {
     }
   }, [state, city]);
 
+  // const fetchMedicalCenters = async () => {
+  //   setLoading(true);
+  //   setError(null);
+  //   try {
+  //     const response = await fetch(
+  //       `https://meddata-backend.onrender.com/data?state=${state}&city=${city}`
+  //     );
+
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
+
+  //     const data = await response.json();
+  //     setMedicalCenters(Array.isArray(data) ? data : []);
+  //   } catch (error) {
+  //     console.error('Error fetching medical centers:', error);
+  //     setError('Failed to fetch medical centers. Please try again.');
+  //     setMedicalCenters([]);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchMedicalCenters = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await fetch(
-        `https://meddata-backend.onrender.com/data?state=${encodeURIComponent(state)}&city=${encodeURIComponent(city)}`
-      );
+  setLoading(true);
+  setError(null);
+  try {
+    const normalizedState = state.charAt(0).toUpperCase() + state.slice(1).toLowerCase();
+    const normalizedCity = city.toUpperCase();
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+    const response = await fetch(
+      `https://meddata-backend.onrender.com/data?state=${normalizedState}&city=${normalizedCity}`
+    );
 
-      const data = await response.json();
-      setMedicalCenters(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Error fetching medical centers:', error);
-      setError('Failed to fetch medical centers. Please try again.');
-      setMedicalCenters([]);
-    } finally {
-      setLoading(false);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+
+    const data = await response.json();
+    setMedicalCenters(Array.isArray(data) ? data : []);
+  } catch (error) {
+    console.error('Error fetching medical centers:', error);
+    setError('Failed to fetch medical centers. Please try again.');
+    setMedicalCenters([]);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleBooking = (center) => {
     setSelectedCenter(center);
