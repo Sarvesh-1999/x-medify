@@ -73,7 +73,9 @@ const SearchResults = () => {
       setShowBookingModal(false)
       setSelectedCenter(null)
 
+      console.log("[v0] About to refetch medical centers after booking")
       await fetchMedicalCenters()
+      console.log("[v0] Successfully refetched medical centers")
 
       navigate("/my-bookings")
     } catch (error) {
